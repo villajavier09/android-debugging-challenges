@@ -20,6 +20,7 @@ import java.util.List;
 public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder> {
 
     private List<Movie> movies;
+    Context context;
 
     public class ViewHolder extends RecyclerView.ViewHolder {
         // only needed because we need to set the background color
@@ -40,19 +41,20 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         }
     }
 
-    public MoviesAdapter(List<Movie> movies) {
+    public MoviesAdapter(Context context, List<Movie> movies) {
+        this.context = context;
         this.movies = movies;
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return movies.size();
     }
 
     @NonNull
     @Override
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        Context context = parent.getContext();
+        //Context context = parent.getContext();
         LayoutInflater inflater = LayoutInflater.from(context);
 
         // Inflate the custom layout
@@ -68,6 +70,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
 
         Movie movie = movies.get(position);
 
+
         // Populate the data into the template view using the data object
         viewHolder.tvName.setText(movie.getTitle());
 
@@ -77,6 +80,9 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         if (movieRating > 6) {
             viewHolder.view.setBackgroundColor(Color.GREEN);
         }
+        else{
+            viewHolder.view.setBackgroundColor(Color.WHITE);
+        }
 
         String ratingText = String.format(resources.getString(R.string.rating), movieRating);
         viewHolder.tvRating.setText(ratingText);
@@ -84,5 +90,7 @@ public class MoviesAdapter extends RecyclerView.Adapter<MoviesAdapter.ViewHolder
         Glide.with(viewHolder.ivPoster.getContext()).load(movie.getPosterUrl()).into(
                 viewHolder.ivPoster);
 
+
     }
+
 }
